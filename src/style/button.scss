@@ -1,0 +1,23 @@
+.pagination-number {
+  background-color: #1E2B48;
+  width: 40px;
+  height: 40px;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 999px;
+  &--inactive {
+    width: 40px;
+    height: 40px;
+    color: #1E2B48;
+    border: none;
+    font-size: 16px;
+  }
+}
+
+.pagination-button {
+  @apply text-black;
+  &--inactive {
+    @apply text-gray-500;
+  }
+}

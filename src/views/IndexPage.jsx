@@ -19,6 +19,21 @@ function IndexPage(props) {
     'purple': 'border-purple-600',
   }
 
+  const fetchNextPersonData = async () => {
+    await setCurrentPage(currentPage + 1);
+    props.getPeopleData(currentPage + 1);
+  }
+
+  const fetchPrevPersonData = async () => {
+    await setCurrentPage(currentPage - 1);
+    props.getPeopleData(currentPage - 1);
+  }
+
+  const setShowPage = async (page) => {
+    await setCurrentPage(page);
+    props.getPeopleData(page);
+  }
+
   const totalPage = () => {
     if (Number.isInteger(metaData.count / 10)) {
       return metaData.count / 10;
@@ -28,8 +43,8 @@ function IndexPage(props) {
   }
 
   const maxVisibleButton = () => {
-    if (totalPage < 4) {
-      return totalPage
+    if (totalPage() < 4) {
+      return totalPage()
     } else {
       return maxPage
     }
@@ -40,7 +55,7 @@ function IndexPage(props) {
       return 1
     }
     if(currentPage === totalPage()) {
-      return totalPage - maxVisibleButton() + 1
+      return totalPage() - maxVisibleButton() + 1;
     }
     return currentPage - 1
   }
@@ -70,17 +85,6 @@ function IndexPage(props) {
   const getPersonData = async (data) => {
     await setPersonData(data);
     setShowPersonDetail(true);
-  }
-
-  const fetchNextPersonData = async () => {
-    console.log(range)
-    await setCurrentPage(currentPage + 1);
-    props.getPeopleData(currentPage + 1);
-  }
-
-  const fetchPrevPersonData = async () => {
-    await setCurrentPage(currentPage - 1)
-    props.getPeopleData(currentPage + 1);
   }
 
   const closePersonData = () => {
@@ -117,18 +121,22 @@ function IndexPage(props) {
       <div className="flex gap-4 items-center justify-center py-10">
         <button
           className={currentPage === 1 && metaData.previous === null ? 'pagination-button--inactive' : 'pagination-button'}
-          onClick={() => fetchPrevPersonData()}
+          onClick={() => currentPage !== 1 && fetchPrevPersonData()}
         >Prev</button>
         {
           range && range.map((index, i) => (
-            currentPage === index.name ? 
-            <button key={i} className="pagination-number">{index.name}</button> : 
-            <button key={i} className="pagination-number--inactive">{index.name}</button>
+            index.name === currentPage ?
+            <button key={i} className="pagination-number">{index.name}</button> :
+            <button
+              key={i}
+              className="pagination-number--disabled"
+              onClick={() => setShowPage(index.name)}
+            >{index.name}</button>
           ))
         }
         <button
-          className={currentPage === totalPage() && metaData.next === null ? 'pagination-button--inactive' : 'pagination-button'}
-          onClick={() => fetchNextPersonData()}
+          className={currentPage === totalPage() ? 'pagination-button--inactive' : 'pagination-button'}
+          onClick={() => currentPage !== totalPage() && fetchNextPersonData()}
         >Next</button>
       </div>
     </div>

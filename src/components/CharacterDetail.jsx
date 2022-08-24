@@ -6,6 +6,12 @@ const CharacterDetail = (props) => {
     peopleData,
     closeAction,
   } = props;
+
+  const personData = {
+    "Skin Color": peopleData.skin_color,
+    "Hair Color": peopleData.hair_color,
+    "Eye Color": peopleData.eye_color,
+  }
   return (
     <>
       { isShowDetail &&
@@ -19,18 +25,13 @@ const CharacterDetail = (props) => {
                   <p><span className="font-bold">{peopleData.mass}</span> kg</p>
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-3">
-                  <div>
-                    <p className="text-gray-400">Skin Color</p>
-                    <p className="text-xl font-bold">{peopleData.skin_color}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400">Hair Color</p>
-                    <p className="text-xl font-bold">{peopleData.hair_color}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400">Eye Color Color</p>
-                    <p className="text-xl font-bold">{peopleData.eye_color}</p>
-                  </div>
+                  { personData && Object.entries(personData).map(([key, value]) => (
+                      <div key={`person-detail-${key}`}>
+                        <p className="text-gray-400">{key}</p>
+                        <p className="text-xl font-bold capitalize">{value}</p>
+                      </div>
+                    ))
+                  }
                 </div>
               </div>
               <div className="absolute bottom-0 text-center w-full">

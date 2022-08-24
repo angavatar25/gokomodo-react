@@ -112,8 +112,12 @@ function IndexPage(props) {
             onClick={() => getPersonData(index)}>
             <p className="text-xl font-bold">{index.name}</p>
             <div className='mt-2'>
-              <p className="text-gray-400 text-sm">Height: {index.height}cm</p>
-              <p className="text-gray-400 text-sm">Weight: {index.mass}kg</p>
+              <p className="text-gray-400 text-sm">
+                Height: { index.height.includes('unknown') ? '-' : index.height} cm
+              </p>
+              <p className="text-gray-400 text-sm">
+                Weight: {index.mass.includes('unknown') ? '-' : index.mass} kg
+              </p>
             </div>
           </div>
         ))}
